@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.MemberMapper">
+   
+    <!-- 기존의 회원 관련 쿼리들 -->
+    <select id="idCheck" parameterType="string" resultType="MemberDTO">
+        select userid,
+               passwd,
+               username,
+               post,
+               addr1,
+               addr2,
+               phone1,
+               phone2,
+               phone3,
+               email1,
+               email2
+        from member
+        where userid = #{userid}
+    </select>
+
+    <insert id="memberAdd" parameterType="MemberDTO">
+        insert into member (userid,
+                           passwd,
+                           username,
+                           post,
+                           addr1,
+                           addr2,
+                           phone1,
+                           phone2,
+                           phone3,
+                           email1,
+                           email2)
+        values ( #{userid},
+                #{passwd},
+                #{username},
+                #{post},
+                #{addr1},
+                #{addr2},
+                #{phone1},
+                #{phone2},
+                #{phone3},
+                #{email1},
+                #{email2}
+               )
+    </insert>
+    
+    <select id="login" parameterType="hashmap" resultType="MemberDTO">
+        select userid,
+               passwd,
+               username,
+               post,
+               addr1,
+               addr2,
+               phone1,
+               phone2,
+               phone3,
+               email1,
+               email2
+        from member
+        where userid = #{userid} and passwd = #{passwd}
+    </select>
+    
+    <select id="mypage" parameterType="string" resultType="MemberDTO">
+        select userid,
+               passwd,
+               username,
+               post,
+               addr1,
+               addr2,
+               phone1,
+               phone2,
+               phone3,
+               email1,
+               email2
+        from member
+        where userid = #{userid}
+    </select>
+    
+    <select id="findByUserid" resultType="MemberDTO" parameterType="string">
+        select userid, passwd, username
+        from member
+        where userid=#{userid}
+    </select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.OrderMapper">
+   
+	 
+	 <resultMap id="userResultMap" type="CartDTO">
+		 <id     property="num" column="num" />
+		 <result property="userid" column="userid"/>
+		 <result property="gCode" column="gCode"/>
+		 <result property="gSize" column="gSize"/>
+		 <result property="gColor" column="gColor"/>
+		 <result property="gAmount" column="gAmount"/>
+		 <result property="gCartDate" column="gCartDate"/>
+	     
+	 	 <!--  GoodsDTO 데이터 저장 -->
+	 	 <collection property="goodsList" ofType="GoodsDTO">
+			 <id     property="gCode" column="gCode" />
+			 <result property="gCategory" column="gCategory"/>
+			 <result property="gName" column="gName"/>
+			 <result property="gContent" column="gContent"/>
+			 <result property="gPrice" column="gPrice"/>
+			 <result property="gImage" column="gImage"/>
+         </collection>
+	 </resultMap>
+	 
+	 <select id="orderConfirm" resultMap="userResultMap" parameterType="int">
+	    select *
+		from cart join goods on cart.gCode = goods.gCode
+		where num = #{num}
+	 </select>
+	 
+	 <select id="orderConfirmMember" 
+	      parameterType="string" resultType="MemberDTO">
+	      
+	        select         userid,
+	                       passwd,
+	                       username,
+	                       post,
+	                       addr1,
+	                       addr2,
+	                       phone1,
+	                       phone2,
+	                       phone3,
+	                       email1,
+	                       email2
+	   from member
+	   where userid = #{userid}
+	  </select>
+	 
+	 
+	 
+	 
+</mapper>

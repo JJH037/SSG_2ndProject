@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.GoodsMapper">
+
+    <!-- 카테고리별 상품 목록 조회 -->
+    <select id="goodsList" resultType="GoodsDTO" parameterType="string">
+        select gCode,
+               gCategory,
+               gName,
+               gContent,
+               gPrice,
+               gImage
+        from goods
+        where gCategory = #{gCategory}
+    </select>
+
+    <!-- 특정 상품 조회 -->
+    <select id="goodsRetrieve" resultType="GoodsDTO" parameterType="string">
+        select gCode,
+               gCategory,
+               gName,
+               gContent,
+               gPrice,
+               gImage
+        from goods
+        where gCode = #{gCode}
+    </select>
+<!-- 특정 카테고리의 상품 목록 조회 -->
+
+    
+
+    <!-- 모든 상품의 재고 정보 조회 -->
+    <select id="getAllStock" resultType="com.exam.dto.GoodsDTO">
+        SELECT * FROM goods
+    </select>
+
+    <!-- 재고가 10개 이하인 상품 조회 -->
+    <select id="getLowStockItems" resultType="GoodsDTO" parameterType="string">
+        select gName
+        from goods
+        where   10 > stock
+    </select>
+
+
+</mapper>

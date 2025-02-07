@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.RefrigeratorMapper">
+   
+	 
+	 <insert id="refrigeratorAdd" parameterType="RefrigeratorDTO">
+	   insert into refrigerator (gCode, gCategory, gName, rStock)
+	   values ( #{gCode}, #{gCategory}, #{gName}, #{rStock})
+	 </insert>
+	 
+	 <resultMap id="refrigeratorResultMap" type="RefrigeratorDTO">
+		 <id     property="num" column="num" />
+		 <result property="userid" column="userid"/>
+		 <result property="gCode" column="gCode"/>
+		 <result property="gCategory" column="gCategory"/>
+		 <result property="gName" column="gName"/>
+		 <result property="rStock" column="rStock"/>
+	     
+	 	 <!--  GoodsDTO 데이터 저장 -->
+	 	 <collection property="goodsList" ofType="GoodsDTO">
+			 <id     property="gCode" column="gCode" />
+			 <result property="gCategory" column="gCategory"/>
+			 <result property="gName" column="gName"/>
+			 <result property="gContent" column="gContent"/>
+			 <result property="gPrice" column="gPrice"/>
+			 <result property="gImage" column="gImage"/>
+         </collection>
+	 </resultMap>
+	 
+	 <select id="refrigeratorList" resultMap="refrigeratorResultMap" parameterType="string">
+	    select *
+		from refrigerator join goods on refrigerator.gCode = goods.gCode
+		where userid = #{userid}
+	    order by num
+	 </select>
+	 
+	 
+	 <delete id="refrigeratorDelete" parameterType="int">
+	    delete from refrigerator
+		where num = #{num}
+	 </delete>
+	 
+	   
+	  <delete id="cartDeleteAll" parameterType="arraylist">
+	    delete from cart
+		<where>
+		    num IN
+		    <foreach item="item" collection="list"  separator="," open="(" close=")">
+                #{item} 
+            </foreach>
+		</where>
+	 </delete>
+	 
+	 
+	 
+</mapper>

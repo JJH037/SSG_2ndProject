@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.CartMapper">
+   
+	 
+	 <insert id="cartAdd" parameterType="CartDTO">
+	   insert into cart (userid, gCode, gAmount)
+	   values ( #{userid}, #{gCode},  #{gAmount})
+	 </insert>
+	 
+	 <resultMap id="userResultMap" type="CartDTO">
+		 <id     property="num" column="num" />
+		 <result property="userid" column="userid"/>
+		 <result property="gCode" column="gCode"/>
+		 <result property="gAmount" column="gAmount"/>
+		 <result property="gCartDate" column="gCartDate"/>
+	     
+	 	 <!--  GoodsDTO 데이터 저장 -->
+	 	 <collection property="goodsList" ofType="GoodsDTO">
+			 <id     property="gCode" column="gCode" />
+			 <result property="gCategory" column="gCategory"/>
+			 <result property="gName" column="gName"/>
+			 <result property="gContent" column="gContent"/>
+			 <result property="gPrice" column="gPrice"/>
+			 <result property="gImage" column="gImage"/>
+         </collection>
+	 </resultMap>
+	 
+	 <select id="cartList" resultMap="userResultMap" parameterType="string">
+	    select *
+		from cart join goods on cart.gCode = goods.gCode
+		where userid = #{userid}
+	    order by num
+	 </select>
+	 
+	 
+	 <delete id="cartDelete" parameterType="int">
+	    delete from cart
+		where num = #{num}
+	 </delete>
+	 
+    <select id="getLowStockItems" parameterType="String" resultType="com.exam.dto.CartDTO">
+        SELECT * 
+        FROM goods
+        WHERE gName = #{gName} AND 10 >stock ;
+    </select>
+    
+    <select id="getAllStock" resultType="com.exam.dto.GoodsDTO">
+    SELECT * FROM goods;
+</select>
+
+
+
+    
+	   <!-- 
+	      멀티 delete
+          mysql sql문:
+             delete from emp 
+             where empno IN ( 1001, 1002,.... )
+     
+      <delete id="deleteMulti" parameterType="arraylist">
+                delete from emp 
+                <where>
+                    empno IN
+                     <foreach item="item" collection="list"  separator="," open="(" close=")">
+                         #{item} 
+                     </foreach>
+                </where>
+	    </delete>
+	   
+	   delete from cart where num IN (4,5)
+	   
+	    -->
+	  <delete id="cartDeleteAll" parameterType="arraylist">
+	    delete from cart
+		<where>
+		    num IN
+		    <foreach item="item" collection="list"  separator="," open="(" close=")">
+                #{item} 
+            </foreach>
+		</where>
+	 </delete>
+	
+	 
+	 
+</mapper>
