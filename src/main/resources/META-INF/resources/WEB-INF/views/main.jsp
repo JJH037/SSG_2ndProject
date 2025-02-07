@@ -88,11 +88,9 @@
 </script>
 </head>
 <body>
-<div class="App">
-    <jsp:include page="common/top.jsp" flush="true" /><br>
-    <jsp:include page="common/menu.jsp" flush="true" />
-    <hr>
-
+ <div class="App">
+	<jsp:include page="common/top.jsp" flush="true" /><br>
+	
     <!-- 벨 아이콘 -->
     <div class="notification-icon" onclick="toggleNotification()">
         <i class="fas fa-bell"></i> <!-- Font Awesome 벨 아이콘 -->
@@ -102,29 +100,41 @@
     <div id="notificationPopup" class="notification-popup">
         <strong>⚠ 재고 부족 알림</strong><br>
         <ul>
-   <% 
-    List<GoodsDTO> allItems = (List<GoodsDTO>) request.getAttribute("allStock");
+            <% 
+            // goodsList를 받아와서 알림 표시
+            List<GoodsDTO> allItems = (List<GoodsDTO>) request.getAttribute("goodsList");
 
-    if (allItems == null || allItems.isEmpty()) {
-%>
-    <li>현재 상품이 없습니다!</li>
-<% 
-    } else {
-        for (GoodsDTO goods : allItems) {
-            String lowStockClass = (goods.getStock() <= 10) ? "low-stock" : ""; // 재고가 10개 이하인 경우 강조
-%>
-    <li class="<%= lowStockClass %>">
-        <%= goods.getgName() %> (재고: <%= goods.getStock() %>개)
-    </li>
-<% 
-        }
-    }
-%>
-
-</ul>
+            if (allItems == null || allItems.isEmpty()) {
+            %>
+                <li>현재 상품이 없습니다!</li>
+            <% 
+            } else {
+                // 모든 상품을 표시
+                for (GoodsDTO goods : allItems) {
+                    String lowStockClass = (goods.getStock() <= 10) ? "low-stock" : ""; // 재고가 10개 이하인 경우 강조
+            %>
+                <li class="<%= lowStockClass %>">
+                    <%= goods.getgName() %> (재고: <%= goods.getStock() %>개)
+                </li>
+            <% 
+                }
+            }
+            %>
+        </ul>
     </div>
+     <div class="container">
+        <div class="row">
+            <!-- 왼쪽 사이드바 (menu.jsp) -->
+            <div class="col-md-2"> 
+                <jsp:include page="common/menu.jsp" flush="true" />
+            </div>
+            <!-- 오른쪽 컨텐츠 (goodsList.jsp) -->
+            <div class="col-md-9">
+                <jsp:include page="goods/goodsList.jsp" flush="true" />
+            </div>
+        </div>
+    </div>
+ </div>
 
-    <jsp:include page="goods/goodsList.jsp" flush="true" />
-</div>
 </body>
 </html>

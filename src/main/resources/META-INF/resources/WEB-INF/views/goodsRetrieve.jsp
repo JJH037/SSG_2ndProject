@@ -27,11 +27,20 @@
    <script src="webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
- <div class="App">
+  <div class="App">
 	<jsp:include page="common/top.jsp" flush="true" /><br>
-	<jsp:include page="common/menu.jsp" flush="true" />
-	<hr>
-	<jsp:include page="goods/goodsRetrieve.jsp" flush="true" />
+     <div class="container">
+        <div class="row">
+            <!-- 왼쪽 사이드바 (menu.jsp) -->
+            <div class="col-md-2"> 
+                <jsp:include page="common/menu.jsp" flush="true" />
+            </div>
+            <!-- 오른쪽 컨텐츠 (goodsList.jsp) -->
+            <div class="col-md-9">
+                <jsp:include page="goods/goodsRetrieve.jsp" flush="true" />
+            </div>
+        </div>
+    </div>
  </div>
 </body>
 </html>

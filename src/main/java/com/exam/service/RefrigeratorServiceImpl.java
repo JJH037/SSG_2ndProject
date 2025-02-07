@@ -1,5 +1,7 @@
 package com.exam.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,16 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 	@Transactional
 	public int refrigeratorAdd(RefrigeratorDTO dto) {
 		return mapper.refrigeratorAdd(dto);
+	}
+
+	@Override
+	public List<RefrigeratorDTO> refrigeratorList(String userid) {
+		return mapper.refrigeratorList(userid);
+	}
+
+	@Override
+	public int refrigeratorDelete(int num) {
+		return mapper.refrigeratorDelete(num);
 	}
 
 }
