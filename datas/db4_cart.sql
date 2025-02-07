@@ -1,10 +1,10 @@
 use team5;
-
+drop table cart;
 CREATE TABLE cart (
   num int NOT NULL AUTO_INCREMENT,
   userid varchar(20) DEFAULT NULL,
   gCode varchar(20) NOT NULL,
-  amount int NOT NULL,
+  gAmount int NOT NULL,
   gCartDate date DEFAULT (curdate()),
   PRIMARY KEY (num),
   KEY cart_userid_fk (userid),
